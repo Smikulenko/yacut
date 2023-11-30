@@ -130,5 +130,5 @@ dmypy.json
 
 .vscode
 
-*/yacut/static/
-*static/
+yacut/static/
+
