@@ -38,4 +38,4 @@ def index_view():
 @app.route('/<string:short>', methods=['GET'])
 def redirect_view(short):
     return redirect(
-        URLMap.query.filter_by(short=short).first_or_404().original) 
+        URLMap.query.filter_by(short=short).first_or_404().original)

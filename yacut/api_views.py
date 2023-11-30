@@ -25,22 +25,22 @@ def get_url(short_id):
 def create_id():
     data = request.get_json()
     if data is None:
-        raise InvalidAPIUsage('Отсутствует тело запроса', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Отсутствует тело запроса')
 
     if 'url' not in data:
-        raise InvalidAPIUsage('"url" является обязательным полем!', HTTPStatus.BAD_REQUEST)
-    
+        raise InvalidAPIUsage('"url" является обязательным полем!')
+
     if 'custom_id' not in data or data['custom_id'] is None:
         data['custom_id'] = get_unique_short()
 
-    if len(data['custom_id']) > USER_URL_LENGHT:
-        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки', HTTPStatus.BAD_REQUEST)
- 
+    if len(data.get('custom_id')) > USER_URL_LENGHT:
+        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
+
     if not match(PATTERN, data['custom_id']):
-        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
 
     if URLMap.query.filter_by(short=data['custom_id']).first() is not None:
-        raise InvalidAPIUsage('Предложенный вариант короткой ссылки уже существует.', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Предложенный вариант короткой ссылки уже существует.')
     url_map = URLMap()
     url_map.from_dict(data)
     db.session.add(url_map)
